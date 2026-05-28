@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Noise & Drone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div class="mode-selector">
+        <div class="mode-group">
+          <span class="mode-group-label">Noise</span>
+          <button class="mode-btn active" data-mode="white">White</button>
+          <button class="mode-btn" data-mode="pink">Pink</button>
+          <button class="mode-btn" data-mode="brown">Brown</button>
+        </div>
+        <div class="mode-group">
+          <span class="mode-group-label">Drone</span>
+          <button class="mode-btn" data-mode="sine">Sine</button>
+          <button class="mode-btn" data-mode="pad">Pad</button>
+        </div>
+      </div>
+      <button class="randomize-btn" id="randomize-btn">
+        <span class="randomize-icon">↺</span> Randomize
+      </button>
+    </header>
+
+    <div class="visualizer-container">
+      <canvas id="visualizer"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="controls-group">
+        <span class="group-title">Sound</span>
+        <div class="slider-row">
+          <label class="slider-label" for="volume">Volume</label>
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7">
+          <span class="slider-value" id="volume-val">0.70</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="texture">Texture</label>
+          <input type="range" id="texture" min="0" max="1" step="0.01" value="0.4">
+          <span class="slider-value" id="texture-val">0.40</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="darkness">Darkness</label>
+          <input type="range" id="darkness" min="0" max="1" step="0.01" value="0.5">
+          <span class="slider-value" id="darkness-val">0.50</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="movement">Movement</label>
+          <input type="range" id="movement" min="0" max="1" step="0.01" value="0.2">
+          <span class="slider-value" id="movement-val">0.20</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="pitch">Pitch</label>
+          <input type="range" id="pitch" min="0" max="1" step="0.01" value="0.5">
+          <span class="slider-value" id="pitch-val">0.50</span>
+        </div>
+      </div>
+
+      <div class="controls-divider"></div>
+
+      <div class="controls-group">
+        <span class="group-title">Sub Bass</span>
+        <div class="slider-row">
+          <label class="slider-label" for="subAmount">Amount</label>
+          <input type="range" id="subAmount" min="0" max="1" step="0.01" value="0">
+          <span class="slider-value" id="subAmount-val">0.00</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label">Octave</label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" data-octave="1">−1</button>
+            <button class="toggle-btn" data-octave="2">−2</button>
+          </div>
+          <span class="slider-value"></span>
+        </div>
+      </div>
+
+      <div class="controls-divider"></div>
+
+      <div class="controls-group">
+        <span class="group-title">Character</span>
+        <div class="slider-row">
+          <label class="slider-label" for="grit">Grit</label>
+          <input type="range" id="grit" min="0" max="1" step="0.01" value="0">
+          <span class="slider-value" id="grit-val">0.00</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="space">Space</label>
+          <input type="range" id="space" min="0" max="1" step="0.01" value="0">
+          <span class="slider-value" id="space-val">0.00</span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="drift">Drift</label>
+          <input type="range" id="drift" min="0" max="1" step="0.01" value="0">
+          <span class="slider-value" id="drift-val">0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="presets-panel">
+      <span class="group-title">Presets</span>
+      <div class="preset-grid">
+        <button class="preset-btn" data-preset="industrial">Industrial</button>
+        <button class="preset-btn" data-preset="ritual">Ritual</button>
+        <button class="preset-btn" data-preset="mechanical">Mechanical</button>
+        <button class="preset-btn" data-preset="haunted">Haunted</button>
+        <button class="preset-btn" data-preset="deep-space">Deep Space</button>
+      </div>
+    </div>
+
+    <div class="actions-panel">
+      <button class="action-btn" data-action="darker">Make Darker</button>
+      <button class="action-btn" data-action="massive">Massive</button>
+      <button class="action-btn" data-action="corrupt">Corrupt</button>
+      <button class="action-btn" data-action="destabilize">Destabilize</button>
+    </div>
+
+    <footer class="app-footer">
+      <button class="play-btn" id="play-btn">
+        <span class="play-icon">▶</span>
+        <span class="play-label">Play</span>
+      </button>
+      <div class="export-group">
+        <div class="duration-selector">
+          <label class="duration-opt">
+            <input type="radio" name="duration" value="30" checked> 30s
+          </label>
+          <label class="duration-opt">
+            <input type="radio" name="duration" value="60"> 1 min
+          </label>
+        </div>
+        <button class="export-btn" id="export-btn">↓ Export</button>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
