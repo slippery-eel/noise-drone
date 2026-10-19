@@ -10,21 +10,9 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="app">
+  <main class="app" data-kind="noise">
     <header class="app-header">
-      <div class="mode-selector">
-        <div class="mode-group">
-          <span class="mode-group-label">Noise</span>
-          <button class="mode-btn active" data-mode="white">White</button>
-          <button class="mode-btn" data-mode="pink">Pink</button>
-          <button class="mode-btn" data-mode="brown">Brown</button>
-        </div>
-        <div class="mode-group">
-          <span class="mode-group-label">Drone</span>
-          <button class="mode-btn" data-mode="sine">Sine</button>
-          <button class="mode-btn" data-mode="pad">Pad</button>
-        </div>
-      </div>
+      <h1 class="app-title">Noise &amp; Drone</h1>
       <button class="randomize-btn" id="randomize-btn">
         <span class="randomize-icon">↺</span> Randomize
       </button>
@@ -32,54 +20,78 @@
 
     <div class="visualizer-container">
       <canvas id="visualizer"></canvas>
+      <div class="meter"><div class="meter-fill" id="meter-fill"></div></div>
+      <span class="limit-badge" id="limit-badge">LIMIT</span>
     </div>
 
     <div class="controls">
       <div class="controls-group">
-        <span class="group-title">Sound</span>
-        <div class="slider-row">
-          <label class="slider-label" for="volume">Volume</label>
-          <input type="range" id="volume" min="0" max="1" step="0.01" value="0.7">
-          <span class="slider-value" id="volume-val">0.70</span>
-        </div>
-        <div class="slider-row">
-          <label class="slider-label" for="texture">Texture</label>
-          <input type="range" id="texture" min="0" max="1" step="0.01" value="0.4">
-          <span class="slider-value" id="texture-val">0.40</span>
-        </div>
-        <div class="slider-row">
-          <label class="slider-label" for="darkness">Darkness</label>
-          <input type="range" id="darkness" min="0" max="1" step="0.01" value="0.5">
-          <span class="slider-value" id="darkness-val">0.50</span>
-        </div>
-        <div class="slider-row">
-          <label class="slider-label" for="movement">Movement</label>
-          <input type="range" id="movement" min="0" max="1" step="0.01" value="0.2">
-          <span class="slider-value" id="movement-val">0.20</span>
-        </div>
-        <div class="slider-row">
-          <label class="slider-label" for="pitch">Pitch</label>
-          <input type="range" id="pitch" min="0" max="1" step="0.01" value="0.5">
-          <span class="slider-value" id="pitch-val">0.50</span>
-        </div>
+        <span class="group-title">Layers</span>
+        <div class="layer-tabs" id="layer-tabs"></div>
+        <div id="layer-panels"></div>
       </div>
 
       <div class="controls-divider"></div>
 
       <div class="controls-group">
-        <span class="group-title">Sub Bass</span>
+        <span class="group-title">Sound</span>
         <div class="slider-row">
-          <label class="slider-label" for="subAmount">Amount</label>
-          <input type="range" id="subAmount" min="0" max="1" step="0.01" value="0">
-          <span class="slider-value" id="subAmount-val">0.00</span>
+          <label class="slider-label" for="volume">Volume</label>
+          <input type="range" id="volume" min="0" max="1" step="0.001">
+          <span class="slider-value" id="volume-val"></span>
         </div>
         <div class="slider-row">
-          <label class="slider-label">Octave</label>
-          <div class="toggle-group">
-            <button class="toggle-btn active" data-octave="1">−1</button>
-            <button class="toggle-btn" data-octave="2">−2</button>
+          <label class="slider-label" for="darkness">Darkness</label>
+          <input type="range" id="darkness" min="0" max="1" step="0.001">
+          <span class="slider-value" id="darkness-val"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="resonance">Resonance</label>
+          <input type="range" id="resonance" min="0" max="1" step="0.001">
+          <span class="slider-value" id="resonance-val"></span>
+        </div>
+        <div class="slider-row" title="Slow, non-repeating sweep of the darkness filter">
+          <label class="slider-label" for="movement">Movement</label>
+          <input type="range" id="movement" min="0" max="1" step="0.001">
+          <span class="slider-value" id="movement-val"></span>
+        </div>
+        <div class="slider-row" title="Stereo width — decorrelated noise, or voice spread and wandering pan">
+          <label class="slider-label" for="width">Width</label>
+          <input type="range" id="width" min="0" max="1" step="0.001">
+          <span class="slider-value" id="width-val"></span>
+        </div>
+      </div>
+
+      <div class="controls-divider" data-show="drone"></div>
+
+      <div class="controls-group" data-show="drone">
+        <span class="group-title">Pitch</span>
+        <div class="slider-row" title="Root note for every pitched layer and the sub">
+          <label class="slider-label" for="pitch">Pitch</label>
+          <input type="range" id="pitch" min="24" max="72" step="1">
+          <span class="slider-value" id="pitch-val"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label">Interval</label>
+          <div class="toggle-group compact" data-key="interval">
+            <button class="toggle-btn" data-value="unison" title="Unison">1</button>
+            <button class="toggle-btn" data-value="octave" title="Octave">8ve</button>
+            <button class="toggle-btn" data-value="fifth" title="Perfect fifth">5th</button>
+            <button class="toggle-btn" data-value="tritone" title="Tritone">♭5</button>
+            <button class="toggle-btn" data-value="minor2" title="Minor second cluster">♭2</button>
+            <button class="toggle-btn" data-value="minor9" title="Minor ninth">♭9</button>
           </div>
           <span class="slider-value"></span>
+        </div>
+        <div class="slider-row" title="Adds a twin voice a few Hz off — slow beating">
+          <label class="slider-label" for="beat">Beat</label>
+          <input type="range" id="beat" min="0" max="1" step="0.001">
+          <span class="slider-value" id="beat-val"></span>
+        </div>
+        <div class="slider-row" title="Each voice wanders off pitch independently">
+          <label class="slider-label" for="drift">Drift</label>
+          <input type="range" id="drift" min="0" max="1" step="0.001">
+          <span class="slider-value" id="drift-val"></span>
         </div>
       </div>
 
@@ -89,20 +101,172 @@
         <span class="group-title">Character</span>
         <div class="slider-row">
           <label class="slider-label" for="grit">Grit</label>
-          <input type="range" id="grit" min="0" max="1" step="0.01" value="0">
-          <span class="slider-value" id="grit-val">0.00</span>
+          <input type="range" id="grit" min="0" max="1" step="0.001">
+          <span class="slider-value" id="grit-val"></span>
         </div>
-        <div class="slider-row">
-          <label class="slider-label" for="space">Space</label>
-          <input type="range" id="space" min="0" max="1" step="0.01" value="0">
-          <span class="slider-value" id="space-val">0.00</span>
+        <div class="slider-row" title="Tape roll-off, gentle saturation and hiss">
+          <label class="slider-label" for="age">Age</label>
+          <input type="range" id="age" min="0" max="1" step="0.001">
+          <span class="slider-value" id="age-val"></span>
         </div>
-        <div class="slider-row">
-          <label class="slider-label" for="drift">Drift</label>
-          <input type="range" id="drift" min="0" max="1" step="0.01" value="0">
-          <span class="slider-value" id="drift-val">0.00</span>
+        <div class="slider-row" title="Wow &amp; flutter: slow wandering tape speed plus a fast shake">
+          <label class="slider-label" for="wow">Wow</label>
+          <input type="range" id="wow" min="0" max="1" step="0.001">
+          <span class="slider-value" id="wow-val"></span>
+        </div>
+        <div class="slider-row" title="Sparse vinyl clicks and pops">
+          <label class="slider-label" for="crackle">Crackle</label>
+          <input type="range" id="crackle" min="0" max="1" step="0.001">
+          <span class="slider-value" id="crackle-val"></span>
+        </div>
+        <div class="slider-row" title="Slow, uneven swells in level">
+          <label class="slider-label" for="breath">Breath</label>
+          <input type="range" id="breath" min="0" max="1" step="0.001">
+          <span class="slider-value" id="breath-val"></span>
         </div>
       </div>
+
+      <div class="controls-divider"></div>
+
+      <div class="controls-group">
+        <span class="group-title">Space</span>
+        <div class="slider-row" title="Reverb level">
+          <label class="slider-label" for="space">Mix</label>
+          <input type="range" id="space" min="0" max="1" step="0.001">
+          <span class="slider-value" id="space-val"></span>
+        </div>
+        <div class="slider-row" title="Decay time (RT60)">
+          <label class="slider-label" for="verbSize">Size</label>
+          <input type="range" id="verbSize" min="0" max="1" step="0.001">
+          <span class="slider-value" id="verbSize-val"></span>
+        </div>
+        <div class="slider-row" title="Highs die away faster than lows">
+          <label class="slider-label" for="verbDamp">Damping</label>
+          <input type="range" id="verbDamp" min="0" max="1" step="0.001">
+          <span class="slider-value" id="verbDamp-val"></span>
+        </div>
+        <div class="slider-row" title="Gap before the reverb starts">
+          <label class="slider-label" for="preDelay">Pre-delay</label>
+          <input type="range" id="preDelay" min="0" max="0.25" step="0.001">
+          <span class="slider-value" id="preDelay-val"></span>
+        </div>
+        <div class="slider-row" title="Feeds the tail back an octave lower, again and again">
+          <label class="slider-label" for="shimmer">Shimmer</label>
+          <input type="range" id="shimmer" min="0" max="1" step="0.001">
+          <span class="slider-value" id="shimmer-val"></span>
+        </div>
+        <div class="slider-row" title="Hold the reverb tail indefinitely (F)">
+          <label class="slider-label">Freeze</label>
+          <div class="toggle-group compact" data-key="freeze">
+            <button class="toggle-btn" data-value="false">Off</button>
+            <button class="toggle-btn" data-value="true">Hold</button>
+          </div>
+          <span class="slider-value"></span>
+        </div>
+      </div>
+
+      <div class="controls-divider"></div>
+
+      <div class="controls-group">
+        <span class="group-title">Echo</span>
+        <div class="slider-row" title="Tape delay time — changes glide like a tape speed change">
+          <label class="slider-label" for="echoTime">Time</label>
+          <input type="range" id="echoTime" min="0" max="1" step="0.001">
+          <span class="slider-value" id="echoTime-val"></span>
+        </div>
+        <div class="slider-row" title="Repeats, each darker than the last">
+          <label class="slider-label" for="echoFeedback">Feedback</label>
+          <input type="range" id="echoFeedback" min="0" max="0.9" step="0.001">
+          <span class="slider-value" id="echoFeedback-val"></span>
+        </div>
+        <div class="slider-row" title="Echo level (echoes also feed the reverb)">
+          <label class="slider-label" for="echoMix">Mix</label>
+          <input type="range" id="echoMix" min="0" max="1" step="0.001">
+          <span class="slider-value" id="echoMix-val"></span>
+        </div>
+      </div>
+
+      <div class="controls-divider"></div>
+
+      <div class="controls-group">
+        <span class="group-title">Events</span>
+        <div class="slider-row" title="Average gap between one-shots (random, never on a grid)">
+          <label class="slider-label" for="evDensity">Density</label>
+          <input type="range" id="evDensity" min="0" max="1" step="0.001">
+          <span class="slider-value" id="evDensity-val"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="evLevel">Level</label>
+          <input type="range" id="evLevel" min="0" max="1" step="0.001">
+          <span class="slider-value" id="evLevel-val"></span>
+        </div>
+        <div class="slider-row" title="Near: dry and bright · Far: muffled and roomy">
+          <label class="slider-label" for="evDistance">Distance</label>
+          <input type="range" id="evDistance" min="0" max="1" step="0.001">
+          <span class="slider-value" id="evDistance-val"></span>
+        </div>
+        <div class="slider-row" title="How different each event is from the last (pitch, length, loudness)">
+          <label class="slider-label" for="evVariety">Variety</label>
+          <input type="range" id="evVariety" min="0" max="1" step="0.001">
+          <span class="slider-value" id="evVariety-val"></span>
+        </div>
+        <div class="slider-row" title="Which kinds of event can happen">
+          <label class="slider-label">Types</label>
+          <div class="toggle-group compact">
+            <button class="toggle-btn" data-flag="evCreak" title="Timber or hinge, stick-slip">Creak</button>
+            <button class="toggle-btn" data-flag="evThud" title="A distant impact or footfall">Thud</button>
+            <button class="toggle-btn" data-flag="evSwell" title="Reversed swell, cut off abruptly">Swell</button>
+            <button class="toggle-btn" data-flag="evWhisper" title="A breathy voice, no words">Whisper</button>
+            <button class="toggle-btn" data-flag="evPing" title="Struck metal or pipe, tuned to Pitch">Ping</button>
+            <button class="toggle-btn" data-flag="evDrip" title="Water dropping">Drip</button>
+          </div>
+          <span class="slider-value"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label">Pattern</label>
+          <div class="toggle-group compact">
+            <button class="toggle-btn" id="ev-reseed" title="A different random pattern (renders reproduce the current one)">↻ New</button>
+            <button class="toggle-btn" id="ev-fire" title="Fire one event now — e.g. on a cut (E)">Fire now</button>
+          </div>
+          <span class="slider-value"></span>
+        </div>
+      </div>
+
+      <div class="controls-divider"></div>
+
+      <details class="controls-group mod-group">
+        <summary class="group-title">Modulation</summary>
+        <div class="slider-row" title="Sine = regular pulse; Wander = smooth random">
+          <label class="slider-label">Shape</label>
+          <div class="toggle-group" data-key="modShape">
+            <button class="toggle-btn" data-value="sine">Sine</button>
+            <button class="toggle-btn" data-value="wander">Wander</button>
+          </div>
+          <span class="slider-value"></span>
+        </div>
+        <div class="slider-row" data-show="drone">
+          <label class="slider-label" for="vibratoRate">Vib Rate</label>
+          <input type="range" id="vibratoRate" min="0.1" max="8" step="0.01">
+          <span class="slider-value" id="vibratoRate-val"></span>
+        </div>
+        <div class="slider-row" data-show="drone">
+          <label class="slider-label" for="vibratoDepth">Vib Depth</label>
+          <input type="range" id="vibratoDepth" min="0" max="1" step="0.001">
+          <span class="slider-value" id="vibratoDepth-val"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="tremoloRate">Trem Rate</label>
+          <input type="range" id="tremoloRate" min="0.1" max="10" step="0.01">
+          <span class="slider-value" id="tremoloRate-val"></span>
+        </div>
+        <div class="slider-row">
+          <label class="slider-label" for="tremoloDepth">Trem Depth</label>
+          <input type="range" id="tremoloDepth" min="0" max="1" step="0.001">
+          <span class="slider-value" id="tremoloDepth-val"></span>
+        </div>
+      </details>
+
+      <p class="hint">Click a layer's dot to mute it · Double-click a slider to reset · Shift-drag for fine control · Space to play · F to freeze · E to fire an event</p>
     </div>
 
     <div class="presets-panel">
@@ -113,14 +277,24 @@
         <button class="preset-btn" data-preset="mechanical">Mechanical</button>
         <button class="preset-btn" data-preset="haunted">Haunted</button>
         <button class="preset-btn" data-preset="deep-space">Deep Space</button>
+        <button class="preset-btn" data-preset="room-tone">Room Tone</button>
+        <button class="preset-btn" data-preset="unease">Unease</button>
+        <button class="preset-btn" data-preset="glass">Glass</button>
+        <button class="preset-btn" data-preset="red-room">Red Room</button>
+        <button class="preset-btn" data-preset="eraserhead">Eraserhead</button>
+        <button class="preset-btn" data-preset="abyss">Abyss</button>
+        <button class="preset-btn" data-preset="bowed-steel">Bowed Steel</button>
+        <button class="preset-btn" data-preset="night-wind">Night Wind</button>
+        <button class="preset-btn" data-preset="fluorescent">Fluorescent</button>
+        <button class="preset-btn" data-preset="seance">Séance</button>
+        <button class="preset-btn" data-preset="submerged">Submerged</button>
+        <button class="preset-btn" data-preset="radio-ghost">Radio Ghost</button>
+        <button class="preset-btn" data-preset="cathedral">Cathedral</button>
+        <button class="preset-btn" data-preset="tinnitus">Tinnitus</button>
+        <button class="preset-btn" data-preset="pulse">Pulse</button>
+        <button class="preset-btn" data-preset="empty-house">Empty House</button>
+        <button class="preset-btn" data-preset="cave">Cave</button>
       </div>
-    </div>
-
-    <div class="actions-panel">
-      <button class="action-btn" data-action="darker">Make Darker</button>
-      <button class="action-btn" data-action="massive">Massive</button>
-      <button class="action-btn" data-action="corrupt">Corrupt</button>
-      <button class="action-btn" data-action="destabilize">Destabilize</button>
     </div>
 
     <footer class="app-footer">
@@ -128,18 +302,30 @@
         <span class="play-icon">▶</span>
         <span class="play-label">Play</span>
       </button>
-      <div class="export-group">
-        <div class="duration-selector">
-          <label class="duration-opt">
-            <input type="radio" name="duration" value="30" checked> 30s
-          </label>
-          <label class="duration-opt">
-            <input type="radio" name="duration" value="60"> 1 min
-          </label>
-        </div>
-        <button class="export-btn" id="export-btn">↓ Export</button>
-      </div>
+      <button class="record-btn" id="record-btn" title="Record live, including slider moves, until stopped">⏺ Capture</button>
     </footer>
+
+    <div class="render-panel">
+      <span class="group-title">Render <span class="render-spec">48 kHz · 24-bit · stereo</span></span>
+      <div class="render-row">
+        <select id="duration" class="duration-select">
+          <option value="30">30 s</option>
+          <option value="60" selected>1 min</option>
+          <option value="120">2 min</option>
+          <option value="300">5 min</option>
+        </select>
+        <label class="check-opt" title="Crossfade the end into the start so the file loops seamlessly">
+          <input type="checkbox" id="opt-loop" checked> Seamless loop
+        </label>
+        <label class="check-opt" title="1.5 s fade in, 3 s fade out (not with loop)">
+          <input type="checkbox" id="opt-fade" disabled> Fades
+        </label>
+        <label class="check-opt" title="Peak-normalise to −1 dBFS">
+          <input type="checkbox" id="opt-normalize" checked> Normalize
+        </label>
+        <button class="export-btn" id="export-btn">↓ Render WAV</button>
+      </div>
+    </div>
   </main>
 
   <script src="app.js"></script>
