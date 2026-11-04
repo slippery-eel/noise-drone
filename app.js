@@ -1629,7 +1629,159 @@ const PRESETS = {
     ...ly('tone', { on: true, src: 'resonator', color: 'brown', inharm: 0.3, q: 0.7, oct: -1, level: 0.35 }),
     ...ly('sub', { on: true, level: 0.35 }),
   },
+  // 3 a.m. off the highway: a buzzing fridge, a worn tape, something through the wall
+  'motel-room': {
+    verbSize: 0.25, verbDamp: 0.7, preDelay: 0.008, wow: 0.3, crackle: 0.3,
+    darkness: 0.55, movement: 0.2, width: 0.6, pitch: 34, age: 0.35, space: 0.25, breath: 0.15,
+    evDensity: 0.3, evDistance: 0.6, ...evOnly('thud', 'creak'),
+    ...ly('bed', { color: 'brown', filter: -0.3, level: 0.6 }),
+    ...ly('tone', { on: true, src: 'hum', mains: 60, buzz: 0.45, flutter: 0.4, level: 0.35 }),
+  },
+  // Bare concrete: slapback, a long gap before the room answers, steps far below
+  stairwell: {
+    verbSize: 0.45, verbDamp: 0.15, preDelay: 0.12, echoTime: 0.26, echoFeedback: 0.25, echoMix: 0.2,
+    volume: 0.95, darkness: 0.3, movement: 0.15, width: 0.8, pitch: 41, space: 0.55,
+    evDensity: 0.4, evDistance: 0.8, evVariety: 0.5, ...evOnly('thud', 'ping'),
+    ...ly('bed', { filter: -0.2, level: 0.9 }),
+    ...ly('air', { on: true, filter: 0.5, level: 0.3 }),
+  },
+  // A music box on a warped tape: high organ in a minor ninth, sparkle, swells
+  lullaby: {
+    verbSize: 0.6, verbDamp: 0.5, shimmer: 0.35, wow: 0.55, crackle: 0.35,
+    volume: 0.85, darkness: 0.35, movement: 0.15, width: 0.6, pitch: 52, interval: 'minor9', beat: 0.1, drift: 0.3,
+    age: 0.5, space: 0.55, breath: 0.3, modShape: 'wander', vibratoRate: 0.5, vibratoDepth: 0.1,
+    evDensity: 0.15, evDistance: 0.6, ...evOnly('swell'),
+    ...ly('bed', { on: false }),
+    ...ly('tone', { on: true, src: 'organ', oct: 1, bright: 0.55, breathe: 0.5, level: 0.5 }),
+    ...ly('air', { on: true, src: 'tone', harm: 3, oct: 2, filter: 0, level: 0.1 }),
+  },
+  // A low choir grinding in a cluster, with whispers too close for comfort
+  possession: {
+    verbSize: 0.55, verbDamp: 0.55, echoTime: 0.5, echoFeedback: 0.4, echoMix: 0.15,
+    darkness: 0.5, resonance: 0.2, movement: 0.35, width: 0.9, pitch: 38, interval: 'minor2', beat: 0.35, drift: 0.45,
+    grit: 0.3, space: 0.6, breath: 0.45, modShape: 'wander', vibratoRate: 0.7, vibratoDepth: 0.25,
+    evDensity: 0.7, evDistance: 0.25, evLevel: 0.55, ...evOnly('whisper', 'swell'),
+    ...ly('bed', { color: 'brown', filter: -0.4, level: 0.3 }),
+    ...ly('tone', { on: true, src: 'choir', vowel: 0.3, morph: 0.7, oct: -1, level: 0.6 }),
+    ...ly('sub', { on: true, level: 0.35 }),
+  },
+  // Plant room: 50 Hz machinery throbbing, metal ticking and knocking nearby
+  'generator-room': {
+    verbSize: 0.3, verbDamp: 0.6, echoTime: 0.3, echoFeedback: 0.2, echoMix: 0.1,
+    volume: 0.55, darkness: 0.45, movement: 0.2, width: 0.5, pitch: 31, grit: 0.25, space: 0.25, age: 0.2,
+    tremoloRate: 3.3, tremoloDepth: 0.3,
+    evDensity: 0.45, evDistance: 0.3, evLevel: 0.5, evVariety: 0.4, ...evOnly('ping', 'thud'),
+    ...ly('bed', { color: 'brown', level: 0.5 }),
+    ...ly('tone', { on: true, src: 'hum', mains: 50, buzz: 0.85, flutter: 0.15, level: 0.5 }),
+    ...ly('air', { on: true, src: 'tone', harm: 7, oct: 1, filter: -0.2, level: 0.15 }),
+    ...ly('sub', { on: true, level: 0.55 }),
+  },
+  // Air moving through ducts: resonant swept noise, a faint fan hum, the odd creak of metal
+  ventilation: {
+    verbSize: 0.35, verbDamp: 0.5,
+    volume: 0.85, darkness: 0.35, resonance: 0.6, movement: 0.75, width: 0.8, pitch: 40, space: 0.3, breath: 0.35, modShape: 'wander',
+    evDensity: 0.2, evDistance: 0.55, ...evOnly('creak'),
+    ...ly('bed', { level: 0.8 }),
+    ...ly('tone', { on: true, src: 'hum', mains: 60, buzz: 0.3, flutter: 0.1, level: 0.12 }),
+    ...ly('air', { on: true, filter: 0.55, level: 0.25 }),
+  },
+  // Ice: glassy resonators ringing into a bright, endlessly sinking tail
+  frost: {
+    verbSize: 0.85, verbDamp: 0.05, preDelay: 0.06, shimmer: 0.5,
+    volume: 0.95, darkness: 0.15, movement: 0.12, width: 0.9, pitch: 60, drift: 0.12, space: 0.8, breath: 0.25,
+    evDensity: 0.35, evDistance: 0.75, ...evOnly('ping', 'drip'),
+    ...ly('bed', { on: false }),
+    ...ly('tone', { on: true, src: 'resonator', color: 'white', inharm: 0.2, q: 0.9, oct: 1, level: 0.9 }),
+    ...ly('air', { on: true, src: 'resonator', color: 'pink', inharm: 0.5, q: 0.85, oct: 2, filter: 0, pan: -0.4, level: 0.35 }),
+  },
+  // A hull on the seabed: groaning steel, timbers giving, water finding its way in
+  shipwreck: {
+    verbSize: 0.8, verbDamp: 0.75, preDelay: 0.05, wow: 0.15,
+    darkness: 0.65, movement: 0.3, width: 0.9, pitch: 30, drift: 0.35, space: 0.65, breath: 0.4,
+    evDensity: 0.4, evDistance: 0.7, evVariety: 0.7, ...evOnly('creak', 'thud', 'drip'),
+    ...ly('bed', { color: 'brown', filter: -0.4, level: 0.5 }),
+    ...ly('tone', { on: true, src: 'resonator', color: 'brown', inharm: 0.85, q: 0.75, level: 0.7 }),
+    ...ly('sub', { on: true, level: 0.5 }),
+  },
+  // Almost nothing: a breath of organ in a vast, sinking space
+  void: {
+    verbSize: 1, verbDamp: 0.5, preDelay: 0.1, shimmer: 0.45,
+    volume: 0.9, darkness: 0.45, movement: 0.1, width: 1, pitch: 33, drift: 0.2, space: 0.95, breath: 0.7,
+    evDensity: 0.1, evDistance: 0.9, ...evOnly('swell'),
+    ...ly('bed', { color: 'brown', filter: -0.6, level: 0.2 }),
+    ...ly('tone', { on: true, src: 'organ', bright: 0.1, breathe: 0.8, level: 0.35 }),
+    ...ly('sub', { on: true, level: 0.3 }),
+  },
+  // Weather rolling in: low rumble, wind voices, thunder far off
+  'storm-front': {
+    verbSize: 0.75, verbDamp: 0.6,
+    darkness: 0.55, resonance: 0.15, movement: 0.85, width: 1, pitch: 29, space: 0.5, breath: 0.55, modShape: 'wander',
+    evDensity: 0.35, evDistance: 0.9, evLevel: 0.8, evVariety: 0.9, ...evOnly('thud'),
+    ...ly('bed', { color: 'brown', level: 0.85 }),
+    ...ly('air', { on: true, src: 'choir', exc: 'noise', vowel: 0, morph: 0.9, filter: 0.1, level: 0.5 }),
+    ...ly('sub', { on: true, level: 0.35 }),
+  },
+  // ── Open Air: outdoor beds that leave room for dialogue (quiet, no near or whisper events) ──
+  // Wind on an open hill, with a soft organ fifth up high that's never quite in tune
+  hillside: {
+    verbSize: 0.55, verbDamp: 0.3, preDelay: 0.04,
+    volume: 0.6, darkness: 0.4, resonance: 0.25, movement: 0.45, width: 0.9, pitch: 45, interval: 'fifth', beat: 0.12,
+    drift: 0.2, space: 0.35, breath: 0.55, modShape: 'wander',
+    ...ly('bed', { level: 0.7 }),
+    ...ly('tone', { on: true, src: 'organ', oct: 1, bright: 0.3, breathe: 0.6, filter: -0.2, level: 0.2 }),
+  },
+  // The same wind, but something's in it: far voices in the gusts, a bottle-like tritone, a distant bell
+  'mountain-path': {
+    verbSize: 0.6, verbDamp: 0.35, preDelay: 0.05,
+    volume: 0.6, darkness: 0.4, resonance: 0.3, movement: 0.55, width: 1, pitch: 43, interval: 'tritone', drift: 0.25,
+    space: 0.4, breath: 0.5, modShape: 'wander',
+    evDensity: 0.12, evDistance: 0.9, evLevel: 0.5, evVariety: 0.4, ...evOnly('ping'),
+    ...ly('bed', { level: 0.7 }),
+    ...ly('tone', { on: true, src: 'resonator', color: 'white', inharm: 0.35, q: 0.8, oct: 1, level: 0.25 }),
+    ...ly('air', { on: true, src: 'choir', exc: 'noise', vowel: 0, morph: 0.8, filter: -0.35, level: 0.2 }),
+  },
+  // High altitude: wide wind, a faint beating ring above it, the bed bending ever so slightly
+  'thin-air': {
+    verbSize: 0.65, verbDamp: 0.2, preDelay: 0.03, shimmer: 0.3, wow: 0.12,
+    volume: 0.6, darkness: 0.35, resonance: 0.2, movement: 0.5, width: 1, pitch: 72, beat: 0.2, drift: 0.08,
+    space: 0.4, breath: 0.45, modShape: 'wander',
+    ...ly('bed', { level: 0.65 }),
+    ...ly('tone', { on: true, harm: 1, oct: 2, level: 0.05 }),
+    ...ly('air', { on: true, filter: 0.55, level: 0.15 }),
+  },
+  // A far-off choir on the wind, slowly drifting out of tune; now and then a swell from nowhere
+  'summit-hymn': {
+    verbSize: 0.75, verbDamp: 0.45, preDelay: 0.06,
+    volume: 0.75, darkness: 0.4, movement: 0.4, width: 0.9, pitch: 45, interval: 'fifth', drift: 0.35,
+    space: 0.6, breath: 0.5, modShape: 'wander', vibratoRate: 0.4, vibratoDepth: 0.12,
+    evDensity: 0.12, evDistance: 0.85, evLevel: 0.5, ...evOnly('swell'),
+    ...ly('bed', { level: 0.6 }),
+    ...ly('tone', { on: true, src: 'choir', vowel: 0.5, morph: 0.3, filter: -0.3, level: 0.45 }),
+  },
 };
+
+// ── Preset groups ─────────────────────────────────────────────────────────
+
+const PRESET_LABELS = {
+  industrial: 'Industrial', ritual: 'Ritual', mechanical: 'Mechanical', haunted: 'Haunted',
+  'deep-space': 'Deep Space', 'room-tone': 'Room Tone', unease: 'Unease', glass: 'Glass',
+  'red-room': 'Red Room', eraserhead: 'Eraserhead', abyss: 'Abyss', 'bowed-steel': 'Bowed Steel',
+  'night-wind': 'Night Wind', fluorescent: 'Fluorescent', seance: 'Séance', submerged: 'Submerged',
+  'radio-ghost': 'Radio Ghost', cathedral: 'Cathedral', tinnitus: 'Tinnitus', pulse: 'Pulse',
+  'empty-house': 'Empty House', cave: 'Cave', 'motel-room': 'Motel Room', stairwell: 'Stairwell',
+  lullaby: 'Lullaby', possession: 'Possession', 'generator-room': 'Generator Room', ventilation: 'Ventilation',
+  frost: 'Frost', shipwreck: 'Shipwreck', void: 'Void', 'storm-front': 'Storm Front',
+  hillside: 'Hillside', 'mountain-path': 'Mountain Path', 'thin-air': 'Thin Air', 'summit-hymn': 'Summit Hymn',
+};
+
+const PRESET_GROUPS = [
+  { id: 'places', name: 'Places', presets: ['room-tone', 'empty-house', 'cave', 'cathedral', 'fluorescent', 'motel-room', 'stairwell'] },
+  { id: 'voices', name: 'Voices', presets: ['haunted', 'seance', 'red-room', 'radio-ghost', 'ritual', 'lullaby', 'possession'] },
+  { id: 'machines', name: 'Machines', presets: ['industrial', 'mechanical', 'eraserhead', 'pulse', 'generator-room', 'ventilation'] },
+  { id: 'metal', name: 'Metal & Glass', presets: ['glass', 'bowed-steel', 'tinnitus', 'frost', 'shipwreck'] },
+  { id: 'vast', name: 'Vast & Deep', presets: ['deep-space', 'abyss', 'unease', 'submerged', 'void'] },
+  { id: 'open-air', name: 'Open Air', presets: ['hillside', 'mountain-path', 'thin-air', 'summit-hymn', 'night-wind', 'storm-front'] },
+];
 
 // ── Layer UI (generated) ──────────────────────────────────────────────────
 
@@ -1828,12 +1980,52 @@ function applyState(next) {
   if (graph) graph.update(state);
 }
 
+// ── Preset panel (generated from PRESET_GROUPS) ──
+// One group's presets show at a time; the open group is remembered per browser.
+
+const GROUP_STORE = 'noise-preset-group';
+let uiGroup = PRESET_GROUPS[0].id, activePreset = null;
+try { uiGroup = localStorage.getItem(GROUP_STORE) || uiGroup; } catch (_) {}
+
+function setGroup(id) {
+  uiGroup = id;
+  try { localStorage.setItem(GROUP_STORE, id); } catch (_) {}
+  renderPresetGroup();
+}
+
+function renderPresetGroup() {
+  const group = PRESET_GROUPS.find(g => g.id === uiGroup) || PRESET_GROUPS[0];
+  uiGroup = group.id;
+  document.querySelectorAll('.preset-group-tab').forEach(b => b.classList.toggle('active', b.dataset.group === uiGroup));
+  document.getElementById('preset-grid').innerHTML = group.presets.map(p =>
+    `<button class="preset-btn${p === activePreset ? ' active' : ''}" data-preset="${p}">${PRESET_LABELS[p]}</button>`).join('');
+}
+
+function buildPresetUI() {
+  const tabs = document.getElementById('preset-groups');
+  tabs.innerHTML = PRESET_GROUPS.map(g =>
+    `<button class="toggle-btn preset-group-tab" data-group="${g.id}">${g.name}</button>`).join('');
+  tabs.addEventListener('click', e => {
+    const b = e.target.closest('.preset-group-tab');
+    if (b) setGroup(b.dataset.group);
+  });
+  document.getElementById('preset-grid').addEventListener('click', e => {
+    const b = e.target.closest('.preset-btn');
+    if (b) applyPreset(b.dataset.preset);
+  });
+  renderPresetGroup();
+}
+
 function applyPreset(name) {
   applyState({ ...DEFAULTS, ...PRESETS[name] });
-  document.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', b.dataset.preset === name));
+  activePreset = name;
+  const group = PRESET_GROUPS.find(g => g.presets.includes(name));
+  if (group && group.id !== uiGroup) setGroup(group.id);
+  else renderPresetGroup();
 }
 
 function clearActivePreset() {
+  activePreset = null;
   document.querySelectorAll('.preset-btn.active').forEach(b => b.classList.remove('active'));
 }
 
@@ -1922,9 +2114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setChoice(group.dataset.key, t === 'number' ? Number(v) : t === 'boolean' ? v === 'true' : v);
     });
   });
-  document.querySelectorAll('.preset-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
-  });
+  buildPresetUI();
   document.querySelectorAll('[data-flag]').forEach(btn => {
     btn.addEventListener('click', () => setChoice(btn.dataset.flag, !state[btn.dataset.flag]));
   });

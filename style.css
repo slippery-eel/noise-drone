@@ -240,6 +240,12 @@ input[type="range"]::-moz-range-track {
   gap: 10px;
 }
 
+.preset-groups {
+  flex-wrap: wrap;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
 .preset-grid {
   display: flex;
   gap: 8px;
